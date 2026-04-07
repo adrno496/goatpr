@@ -1222,7 +1222,22 @@ export default function App() {
             return <div key={ex.id} style={{ background: themeColors.surface, border: `1px solid ${themeColors.border}`, borderRadius: 12, padding: '10px 14px', marginBottom: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ color: themeColors.text, fontSize: 12, fontWeight: 600 }}>{ex.n}</span><span style={{ color: d > 0 ? theme.success : theme.danger, fontSize: 12, fontWeight: 700 }}>{d > 0 ? '+' : ''}{d} kg</span></div>;
           })}
           {!premium && <button onClick={() => setShowPaywall(true)} style={{ ...S.shareBtn, background: themeColors.accent, marginTop: 16 }}>👑 Premium</button>}
-          <button onClick={() => { setUser(null); localStorage.removeItem('gf_u'); setPage('home') }} style={{ width: '100%', marginTop: 12, padding: '14px 0', borderRadius: 14, background: 'rgba(255,80,80,0.1)', border: '1px solid rgba(255,80,80,0.2)', color: '#ff5050', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Déconnexion</button>
+          <button onClick={() => {
+            if (!window.confirm('Réinitialiser TOUTES les données ? (PRs, XP, séances, shop...)')) return;
+            localStorage.clear();
+            setUser(null); setPrs({}); setStreak({ count: 0, last: null }); setPremium(null);
+            setOwnedTemplates(['classic']); setChallenges([]); setDuels([]);
+            setSessions([]); setOwnedAvatars(['goat_classic']); setOwnedFrames(['frame_white']);
+            setOwnedThemes(['goat_classic']); setEquippedAvatar('goat_classic');
+            setEquippedFrame('frame_white'); setEquippedTheme('goat_classic');
+            setDailyQuests({ date: null, quests: [] }); setUnlockedAch([]);
+            setDailyReward({ day: 0, lastClaimed: null }); setShowDailyReward(false);
+            setMissions30({ startDate: null, prs: 0, sessionCount: 0 });
+            setEquippedTitle('none'); setOwnedTitles(['none']);
+            setSharesCount(0); setPurchaseCount(0); setPage('home');
+            flash('🔄 Données réinitialisées');
+          }} style={{ width: '100%', marginTop: 8, padding: '14px 0', borderRadius: 14, background: 'rgba(255,200,0,0.08)', border: '1px solid rgba(255,200,0,0.2)', color: '#FFD700', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>🔄 Tout réinitialiser</button>
+          <button onClick={() => { setUser(null); localStorage.removeItem('gf_u'); setPage('home') }} style={{ width: '100%', marginTop: 8, padding: '14px 0', borderRadius: 14, background: 'rgba(255,80,80,0.1)', border: '1px solid rgba(255,80,80,0.2)', color: '#ff5050', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>Déconnexion</button>
         </div>
       )}
 
